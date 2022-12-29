@@ -1,0 +1,15 @@
+{
+    "short_name": "Oppinen",
+    "name": "Oppinen",
+    "description": " ",
+    "display": "standalone",
+    "start_url": "/",
+    "scope": "/",
+    "icons": [
+        {
+            "src": "/icon.png",
+            "type": "image/png",
+            "sizes": "144x144"
+        }
+    ]
+}

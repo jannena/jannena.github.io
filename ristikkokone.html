@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ristikkokone</title>
+</head>
+<body>
+    <textarea id="KOODI"></textarea>
+<button onclick="muodostaRistikko()">Muodosta ristikko</button>
+    <!-- <script src="koodi.js"></script> -->
+    <script>
+        
+const KOODI = document.getElementById("KOODI");
+
+const muodostaRistikko = () => {
+    let pisinEnnen = 0;
+    let pisinJälkeen = 0;
+
+    const taulukkoPidike = document.createElement("table");
+    // taulukkoPidike.style.borderSpacing = "0";
+
+    KOODI.value.split("\n").map(rivi => {
+        if (rivi.length === 0 || rivi.indexOf("*") === -1)
+            return ["", "", ""];
+        const [alku, [kirjain, ...loppu]] = rivi.split("*");
+        pisinEnnen = Math.max(pisinEnnen, alku.length);
+        pisinJälkeen = Math.max(pisinJälkeen, loppu.length);
+        return [alku, kirjain, loppu.join("")];
+    })
+        .map(rivi => {
+            const tyhjiäAlussa = pisinEnnen - rivi[0].length;
+            const tyhjiäLopussa = pisinJälkeen - rivi[2].length;
+            return [...new Array(tyhjiäAlussa).fill(""), ...rivi[0], rivi[1], ...rivi[2], ...new Array(tyhjiäLopussa).fill("")];
+        })
+        .forEach(rivi => {
+            const riviPidike = document.createElement("tr");
+            rivi.forEach((sarake, i) => {
+                const sarakePidike = document.createElement("td");
+                // sarakePidike.innerText = sarake;
+                sarakePidike.style.width = "30px";
+                sarakePidike.style.height = "30px";
+                sarakePidike.style.textAlign = "center";
+                sarakePidike.style.boxSizing = "border-box";
+
+                if (i === pisinEnnen)
+                    sarakePidike.style.border = "2px solid black";
+                else if (sarake.length !== 0)
+                    sarakePidike.style.border = "1px solid black";
+                else
+                    sarakePidike.innerHTML = "&nbsp;";
+
+                riviPidike.appendChild(sarakePidike);
+            });
+            taulukkoPidike.appendChild(riviPidike);
+        });
+
+    document.body.appendChild(taulukkoPidike);
+};
+    </script>
+</body>
+</html>
